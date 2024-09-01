@@ -1,4 +1,14 @@
-<x-guest-layout>
+<x-app-layout>
+      @slot('title', 'Verification Email')
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Verification Email') }}
+            (<span class="text-gray-500" {{ auth()->user()->email}}>
+            </span>)
+        </h2>
+    </x-slot>
+   <x-container>
+    <div class="max-w-2xl bg-white shadow-sm rounded-lg p-6">
     <div class="mb-4 text-sm text-gray-600">
         {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
     </div>
@@ -20,12 +30,8 @@
             </div>
         </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+       .
     </div>
-</x-guest-layout>
+    </div>
+   </x-container>
+</x-app-layout>
