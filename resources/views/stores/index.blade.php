@@ -21,6 +21,12 @@
                         <x-card.description>
                             {{ $stores->description }}
                         </x-card.description>
+                        @auth
+                            @if ($stores->user_id == auth()->user()->id)
+                                <a href="{{route('stores.edit', $stores)}}" class="underline text-blue-600">Edit</a>
+                            @endif
+                        @endauth
+                       
                     </x-card.header>
                 </x-card>
             @endforeach

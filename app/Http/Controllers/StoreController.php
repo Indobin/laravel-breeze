@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
+use Illuminate\Support\Facades\Gate;
 
 class StoreController extends Controller
 {
@@ -23,7 +24,17 @@ class StoreController extends Controller
      */
     public function create()
     {
-        return view('stores.create');
+        return view('stores.form',[
+            'store' => new Store(),
+            'page_meta' => [
+                'url' => route('stores.store'),
+                'title' => 'Create a store',
+                'sub_title' => 'Create new store',
+                'description' => 'You can nsnsnsns',
+                'submit_text' => 'Create',
+                'method' => 'post',
+            ]
+        ]);
     }
 
     /**
@@ -51,17 +62,32 @@ class StoreController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Store $store)
+    public function edit(Request $request, Store $store)
     {
-        //
+        Gate::authorize('update', $store);
+        return view('stores.form',[
+            'store' => $store,
+            'page_meta' => [
+                'url' => route('stores.update', $store->id),
+                'title' => 'Edit a store ' . $store->name,
+                'sub_title' => 'Edit store',
+                'description' => 'You can nsnsnsns',
+                'submit_text' => 'Update',
+                'method' => 'put',
+            ]
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Store $store)
+    public function update(StoreRequest $request, Store $store)
     {
-        //
+        $store->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+        return to_route('stores.index');
     }
 
     /**
