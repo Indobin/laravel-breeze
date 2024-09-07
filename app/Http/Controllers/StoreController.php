@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Enums\StatusStore;
 use App\Models\User;
 use App\Models\Store;
 use Illuminate\Http\Request;
@@ -15,8 +17,12 @@ class StoreController extends Controller
      */
     public function index()
     {
+        $stores = Store::query()
+        ->where('status', StatusStore::ACTIVE)
+        ->latest()
+        ->get();
         return view('stores.index',[
-            'stores' => Store::latest()->get()
+            'stores' => $stores,
         ]);
     }
 
